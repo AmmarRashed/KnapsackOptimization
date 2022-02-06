@@ -24,6 +24,8 @@ class SimulatedAnnealing(Knapsack):
         best = current
 
         temp = initial_temp
+        val_hist = []
+        weight_hist = []
         for i in range(n_iterations):
             candidate = current.adjacent()  # candidate solution
             delta = candidate.value - current.value
@@ -34,5 +36,7 @@ class SimulatedAnnealing(Knapsack):
                 current = candidate
             elif np.random.rand() < np.exp(delta / temp):
                 current = candidate
+            val_hist.append(current.value)
+            weight_hist.append(current.weight)
             temp = max(temp * cooling_rate, min_temp)
-        return best
+        return best, val_hist, weight_hist
