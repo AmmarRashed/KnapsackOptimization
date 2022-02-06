@@ -1,7 +1,7 @@
 import csv
 from argparse import ArgumentParser
 import matplotlib.pyplot as plt
-from simulated_annealing import SimulatedAnnealing
+from hill_climbing import HillClimbing
 
 
 def parse_data(path):
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     values, weights = parse_data(args.path)
     max_weight = args.max_w
 
-    ks = SimulatedAnnealing(values, weights, max_weight)
+    ks = HillClimbing(values, weights, max_weight)
     solution, v_hist, w_hist = ks.optimize()
     plot_results(v_hist, w_hist, max_weight)
     write_solution(solution, "solution.txt")

@@ -3,13 +3,14 @@ import numpy as np
 from base import Knapsack, Solution
 
 
-class SimulatedAnnealing(Knapsack):
+class HillClimbing(Knapsack):
 
-    def optimize(self, n_iterations=500, initial_temp=1000, cooling_rate=0.98, min_temp=1e-4):
+    def optimize(self, n_iterations=500, anneal=True, initial_temp=1000, cooling_rate=0.98, min_temp=1e-4):
         """
 
         Args:
             n_iterations: maximum number of iterations before halting the algorithm
+            anneal: whether to use simulated annealing
             initial_temp: Starting temperature
             cooling_rate: Multiply the temperature by this rate after each iteration
             min_temp: minimum temperature value
@@ -34,7 +35,7 @@ class SimulatedAnnealing(Knapsack):
                 current = candidate
             elif delta >= 0:
                 current = candidate
-            elif np.random.rand() < np.exp(delta / temp):
+            elif anneal and np.random.rand() < np.exp(delta / temp):
                 current = candidate
             val_hist.append(current.value)
             weight_hist.append(current.weight)
