@@ -1,4 +1,9 @@
 import numpy as np
+from copy import deepcopy
+
+
+def flip_bit(bit):
+    return abs(bit - 1)
 
 
 class Solution:
@@ -19,7 +24,7 @@ class Solution:
         for i, p in enumerate(self.packing):
             v += self.values[i] * p
             w += self.weights[i] * p
-        self.value = 0 if w > self.max_weight else v
+        self.value = -1 if w > self.max_weight else v
         self.weight = w
 
     def adjacent(self):
@@ -29,8 +34,18 @@ class Solution:
             idx = np.random.choice(np.where(new == True)[0])
         else:
             idx = np.random.choice(np.arange(self.n))
-        new[idx] = abs(new[idx] - 1)  # flip the bit
+        new[idx] = flip_bit(new[idx])  # flip the bit
         return Solution(new, self.values, self.weights, self.max_weight)
+
+    def flip(self, i):
+        self.packing[i] = flip_bit(self.packing[i])
+        self.update_objective()
+
+    def __copy__(self):
+        return deepcopy(self)
+
+    def copy(self):
+        return self.__copy__()
 
 
 class Knapsack:

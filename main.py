@@ -1,8 +1,10 @@
 import csv
 from argparse import ArgumentParser
-import matplotlib.pyplot as plt
-from hill_climbing import HillClimbing
 
+import matplotlib.pyplot as plt
+
+from simulated_annealing import SimulatedAnnealing
+from tabu import TabuSearch
 
 def parse_data(path):
     with open(path, mode='r') as file:
@@ -44,7 +46,9 @@ if __name__ == "__main__":
     values, weights = parse_data(args.path)
     max_weight = args.max_w
 
-    ks = HillClimbing(values, weights, max_weight)
-    solution, v_hist, w_hist = ks.optimize()
-    plot_results(v_hist, w_hist, max_weight)
+    # ks = SimulatedAnnealing(values, weights, max_weight)
+    # solution, v_hist, w_hist = ks.optimize()
+    # plot_results(v_hist, w_hist, max_weight)
+    ks = TabuSearch(values, weights, max_weight)
+    solution = ks.optimize(tenure=2)
     write_solution(solution, "solution.txt")
